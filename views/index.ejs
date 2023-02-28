@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> User Task Manager</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="jumbotron">
+      <div class="header">
+        <h2>Add Task</h2>
+
+        <h3>
+          <%= user.username%>
+        </h3>
+        <a href="/logout" id="logout">Log Out</a>
+
+      </div>
+      <div class="well">
+        <div class="body add">
+          <form action="" method="post">
+            <input type="text" name="task" id="task" placeholder="Add name of task..." class="form-control" required>
+            <textarea name="description" id="desc" style="width:100%;" rows="4" placeholder="Add description"
+              required></textarea>
+            <label for="date">Choose start and end date:</label>
+            <div class="dates">
+              <input type="date" name="start_date" id="date" required>
+              <input type="date" name="end_date" id="date" required>
+            </div>
+            <button class="btn-add btn btn-success">Add</button>
+          </form>
+        </div>
+        <div class="body recent">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+
+    window.addEventListener('load', async () => {
+
+      const res = await fetch('/tasks', {
+        method: "GET"
+      })
+      const data = await res.json()
+      let message = data.message
+      if(message == "No Tasks Found"){
+          let recent_tab = document.querySelector('.body.recent')
+          recent_tab.innerHTML = `<h2>${message}</h2>`
+      
+      }
+      if (data.message != "No Tasks Found") {
+        data.forEach(element => {
+          let done_btn = document.createElement('button')
+          done_btn.classList.add('btn', 'btn-danger', 'del-btn')
+          done_btn.innerHTML = `<i class='fa fa-trash'></i>`
+
+          let recent_tab = document.querySelector('.body.recent')
+          let task_div = document.createElement('div')
+          task_div.classList.add('task-div', 'well')
+          let h3 = document.createElement('h3')
+          let p = document.createElement('p')
+          h3.innerText = element.tasks
+          p.innerHTML = ' <a>View Description </a>'
+          let date_div = document.createElement('div')
+          date_div.classList.add('dates')
+
+          let span = document.createElement('span')
+          span.innerText = `start date: ${element.start_date}`
+
+          let span2 = document.createElement('span')
+          span2.innerText = `end date: ${element.end_date}`
+
+          date_div.append(span)
+          date_div.append(span2)
+          task_div.append(h3)
+          task_div.append(p)
+          task_div.append(date_div)
+          recent_tab.append(task_div)
+          recent_tab.append(done_btn)
+
+
+          done_btn.addEventListener('click', async () => {
+
+            let conf = confirm('are you sure you want to delete this task?')
+            if (conf) {
+
+              const response = await fetch(`/tasks/delete/${element._id}`, {
+                method: "DELETE"
+              })
+              const data = await response.json()
+              location.assign('/dashboard')
+            }
+            else {
+              return false;
+            }
+          })
+
+        });
+      }
+    })
+
+    let add_btn = document.querySelector('.btn-add')
+    add_btn.addEventListener('click', async (e) => {
+      e.preventDefault()
+
+      let form = document.querySelector('form')
+      let username = `<%= user.username%>`
+      let task = form.task.value
+      let desc = form.desc.value
+      let start_date = form.start_date.value
+      let end_date = form.end_date.value
+
+      const taskBody = JSON.stringify({ username, task, description: desc, start_date, end_date })
+
+      try {
+        const res = await fetch('/tasks', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: taskBody
+        })
+
+        const data = await res.json()
+        if (data) {
+          location.assign('/dashboard')
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+
+    })
+  </script>
+
+  <script>
+
+    function get() {
+
+    }
+  </script>
+</body>
+
+</html>

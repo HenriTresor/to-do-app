@@ -1,0 +1,106 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+.error{
+  background: rgb(255, 120, 120);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  display: block;
+  margin: 5px 0;
+}
+
+#err-body{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: grey;
+  flex-direction: column;
+}
+
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+#logout{
+  background: rgb(255, 115, 115);
+  color: white;
+  padding: 5px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.body{
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.body form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.body.recent{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.dates{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.dates input{
+  width: 100%;
+  padding: 5px;
+}
+
+.task-div{
+  width: 100%;
+  text-align: center;
+}
+
+textarea{
+  resize: vertical;
+}
+
+.del-btn{
+  margin: 10px 0;
+  width: 50%;
+}
+
+
+label[for="pic"]{
+  display: block;
+  background: grey;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  width: 150px;
+ /* height: 40px; */
+ word-wrap: break-word;
+}
+
+#pic{
+  display: none;
+}
