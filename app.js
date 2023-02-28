@@ -26,7 +26,7 @@ const indexRouter = require('./routes/index.route')
 
 
 // connect to mongodb
-const MONGO_STR = 'mongodb://127.0.0.1:27017/todo-app'
+const MONGO_STR = process.env.DB_STR || 'mongodb://127.0.0.1:27017/todo-app'
 
 mongoose.connect(MONGO_STR, {})
   .then(() => console.log('connected to mongodb!'))
