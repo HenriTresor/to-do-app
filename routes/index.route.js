@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
 const decodeJWT = (req, res, next) => {
     if (req.cookies.jwt) {
-        jwt.verify(req.cookies.jwt, 'tresorapp', (err, payload) => {
+        jwt.verify(req.cookies.jwt, process.env.JWT_SECRET, (err, payload) => {
             if (err) console.log('error decoding jwt:', err.message);
             req.user = payload
             next()

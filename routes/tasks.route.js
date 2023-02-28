@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
 
   try {
-    const token = jwt.verify(req.cookies.jwt, 'tresorapp')
+    const token = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET)
     if (token) {
       let currentUser = await User.findOne({ username: token.username })
       if (currentUser) {

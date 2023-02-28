@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 
 // create jwt
 const createToken = (id, username) => {
-  return jwt.sign({ id, username }, 'tresorapp');
+  return jwt.sign({ id, username }, process.env.JWT_SECRET);
 }
 
 // add user
